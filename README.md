@@ -1,30 +1,29 @@
-Apple File Conduit "2" (iOS 11+, arm64)
-=======================================
+# afc2d-arm64
 
-**Works on any arm64 device running iOS 11 and higher.**
+I really hate these guys who did these piracy things with tons of disclaimers.  
+I’d like to teach you an old Chinese saying, “你们这就是脱了裤子放屁——多此一举。”.
 
-This is a modified version of saurik's original AFC2 code that downloads and installs an arm64 copy of afcd (required on iOS 11 and above) straight from Apple, and then automatically grants it the necessary `platform-application` entitlement required for functionality on KPPLess jailbreaks (like Electra and Meridian).
+If someone give this repo a *DMCA takedown*, do as you want. I just want to tease “揶揄” these guys.
 
-As a result, **this package does not illegally redistribute copyrighted Apple binaries.**
+## WHY...
 
-In compliance with saurik's original code being licensed under GPLv3, source code has been released above at the GitHub link.
+You just injected a dynamic library into `SpringBoard`...  
+You just hooked `SpringBoard` and spawned a `killdaemon` process with root privileges...  
+You just downloaded a legacy `afcd` binary from Apple’s CDN server...  
+You just used `ldid` and tampered that `afcd` and renamed it to `afc2d`...  
+You just restarted `lockdownd`...  
+You just injected `lockdownd` and spawned `afc2d` process instead of the original `afcd`...
 
-## saurik's original explanation of what AFC2 is
+Let’s be more straightforward. Please, just bundle the legacy `afcd` binary directly into your package, PLEASE!!!!!!  
+You just did so many magic(s), but you’re still complaining about redistributing copyrighted Apple binaries??? Oh my dear, your code just **hooked** and **injected** and **fucked** Apple’s processes thousands of times! STOP THAT 掩耳盗铃-like behavior!
 
-AFC stands for "Apple File Conduit" (or at least so says [TheiPhoneWiki](https://www.theiphonewiki.com/wiki/AFC)), and is how computer applications such as iTunes and iPhoto can read and write files from your device over USB.
+## If this repo got a *DMCA takedown* by Apple’s request, how can I get the legacy `afcd` binary?
 
-AFC is "jailed" and only allows access to "media" (such as photos, music, and data for apps from the App Store).
+To download the original version of legacy `afcd`, use the following command:
 
-This package creates a new service, "AFC2", with full filesystem access.
+```bash
+$ curl -r 1310657433-1310666346 http://appldnld.apple.com/iOS7/031-3029.20140221.ramz3/com_apple_mobileasset_softwareupdate/92b6344e610f418586f1741231ffab482e6d49fd.zip > 92b6344e610f418586f1741231ffab482e6d49fd
+$ perl -MIO::Uncompress::RawInflate -e 'undef $/; my ($in, $out) = (<>, undef); IO::Uncompress::RawInflate::rawinflate(\$in, \$out); print $out;' < 92b6344e610f418586f1741231ffab482e6d49fd > afcd
+```
 
-If you use a USB device management tool, it might need AFC2 to fully work.
-
-Historically, getting full (not "jailed") filesystem access was core to the idea "this is a jailbreak". However, due to security concerns, modern "jailbreaks" now avoid installing AFC2 by default.
-
-**Please understand that AFC2 is considered by many to be a security hole: you might not want to provide full USB filesystem access.**
-
-Some AFC2 setups, in particular many that were installed by default with older jailbreaks (such as evasi0n for iOS 6) set a flag that allows this access to not require a "trusted" USB connection :/.
-
-Installing this package will correct that mistake, and is thereby more secure than the "stock" from-jailbreak AFC2 configuration you may be using now.
-
-AFC2 is GPLv3-licensed. See `LICENSE` for more information.
+Then rename it to `afc2d`. That’s **identical** to `layout/usr/libexec/afc2d` in this repo.
